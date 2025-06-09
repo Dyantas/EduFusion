@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduFusion - Personalize seu aprendizado</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
+    }
+    
+    body {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    
+    .logo {
+      margin-bottom: 20px;
+    }
+    
+    .logo h1 {
+      font-size: 2.2em;
+      color: #00c3ff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00c3ff, #0077ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .headline {
+      font-size: 2em;
+      color: #00c3ff;
+      text-align: center;
+      margin: 20px 0 40px 0;
+      position: relative;
+    }
+    
+    .headline::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #00c3ff, transparent);
+      border-radius: 2px;
+    }
+    
+    .subheadline {
+      font-size: 1.1em;
+      max-width: 700px;
+      margin: 0 auto 50px auto;
+      color: #bfbfbf;
+      text-align: center;
+    }
+    
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin: 40px 0;
+    }
+    
+    .option-card {
+      background-color: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 195, 255, 0.1);
+      min-height: 280px;
+      justify-content: center;
+    }
+    
+    .option-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 195, 255, 0.3);
+      border-color: #00c3ff;
+      background-color: #222;
+    }
+    
+    .option-icon {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      color: #00c3ff;
+      text-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
+    }
+    
+    .option-card h3 {
+      font-size: 1.4rem;
+      color: #00c3ff;
+      margin-bottom: 15px;
+    }
+    
+    .option-card p {
+      color: #bfbfbf;
+      font-size: 0.95em;
+      margin-bottom: 20px;
+      max-width: 90%;
+    }
+    
+    .ai-info {
+      background: rgba(0, 195, 255, 0.1);
+      border-radius: 10px;
+      padding: 25px;
+      margin: 40px 0;
+      border: 1px solid #00c3ff;
+      text-align: center;
+    }
+    
+    .ai-info h3 {
+      color: #00c3ff;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+    
+    .ai-info p {
+      color: #bfbfbf;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .cta-button {
+      background-color: #00c3ff;
+      color: #0f0f0f;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin: 30px auto;
+      display: block;
+      font-weight: bold;
+      box-shadow: 0 0 15px rgba(0, 195, 255, 0.3);
+    }
+    
+    .cta-button:hover {
+      background-color: #00a1d6;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0, 195, 255, 0.4);
+    }
+    
+    .cta-button:active {
+      transform: translateY(0);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 40px 0 20px;
+      color: #666666;
+      font-size: 0.9em;
+      margin-top: 60px;
+      border-top: 1px solid #333;
+    }
+    
+    @media (max-width: 768px) {
+      .options {
+        grid-template-columns: 1fr;
+      }
+      
+      .headline {
+        font-size: 1.8em;
+      }
+      
+      .option-card {
+        min-height: 240px;
+        padding: 20px;
+      }
+      
+      .option-icon {
+        font-size: 2.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <h1>EduFusion</h1>
+        <p style="color: #bfbfbf; max-width: 600px; margin: 10px auto;">Personalize sua experiência de aprendizado com inteligência artificial</p>
+      </div>
+      <div class="user-info">
+        <div class="user-avatar">DA</div>
+        <div>Dilan Antas | Estudante</div>
+      </div>
+    </header>
+    
+    <h1 class="headline">Personalize Sua Aprendizagem</h1>
+    <p class="subheadline">Sua jornada de aprendizado é única. Selecione o método que melhor se adapta ao seu estilo e necessidades.</p>
+    
+    <div class="options">
+      <div class="option-card" onclick="location.href='resultados.html'">
+        <div class="option-icon">🧪</div>
+        <h3>Laboratório Virtual</h3>
+        <p>Explore conceitos complexos através de simulações interativas e experiências imersivas em realidade virtual e aumentada.</p>
+      </div>
+      <div class="option-card">
+        <div class="option-icon">❓</div>
+        <h3>Quiz Adaptativo</h3>
+        <p>Teste seu conhecimento com questões personalizadas que se ajustam ao seu nível de compreensão em tempo real.</p>
+      </div>
+      
+      <div class="option-card">
+        <div class="option-icon">📚</div>
+        <h3>Conteúdo Alternativo</h3>
+        <p>Acesse explicações com diferentes abordagens selecionadas especialmente para seu perfil de aprendizado.</p>
+      </div>
+      
+      <div class="option-card">
+        <div class="option-icon">👥</div>
+        <h3>Sala de Estudo</h3>
+        <p>Colabore com outros alunos em tempo real, compartilhe dúvidas e resolva problemas juntos.</p>
+      </div>
+    </div>
+    
+    <div class="ai-info">
+      <h3>Recomendação da Inteligência Artificial</h3>
+      <p>Com base no seu desempenho anterior e estilo de aprendizado, nosso sistema recomenda que você comece pelo <strong>Laboratório Virtual</strong> para visualizar conceitos abstratos de forma concreta.</p>
+    </div>
+    
+    <button class="cta-button" onclick="location.href='result.html'">
+      Começar Jornada Personalizada
+    </button>
+    
+    <footer>
+      <p>EduFusion - Transformando a Educação com Tecnologia</p>
+      <p>&copy; 2025 Todos os direitos reservados</p>
+    </footer>
+  </div>
+</body>
+</html>

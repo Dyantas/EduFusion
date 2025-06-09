@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduFusion - Resultados do Laboratório Virtual</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
+    }
+    
+    body {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      line-height: 1.6;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0d1a26 0%, #1a1a1a 100%);
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    
+    .logo {
+      margin-bottom: 20px;
+    }
+    
+    .logo h1 {
+      font-size: 2.2em;
+      color: #00c3ff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00c3ff, #0077ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .headline {
+      font-size: 2em;
+      color: #00c3ff;
+      text-align: center;
+      margin: 20px 0 40px 0;
+      position: relative;
+      padding-bottom: 20px;
+    }
+    
+    .headline::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #00c3ff, transparent);
+      border-radius: 2px;
+    }
+    
+    .subheadline {
+      font-size: 1.1em;
+      max-width: 700px;
+      margin: 0 auto 30px auto;
+      color: #bfbfbf;
+      text-align: center;
+    }
+    
+    .lab-container {
+      display: flex;
+      gap: 30px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+    
+    .lab-visualization {
+      flex: 1;
+      min-width: 300px;
+      background: linear-gradient(135deg, #0d2130, #1a1a1a);
+      border-radius: 15px;
+      padding: 25px;
+      border: 1px solid #00c3ff30;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .lab-visualization::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(0, 195, 255, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .lab-title {
+      font-size: 1.6rem;
+      color: #00c3ff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .matrix-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 30px 0;
+    }
+    
+    .matrix-cell {
+      background: rgba(0, 195, 255, 0.1);
+      border: 1px solid #00c3ff30;
+      border-radius: 8px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    
+    .matrix-cell:hover {
+      transform: scale(1.05);
+      background: rgba(0, 195, 255, 0.2);
+      box-shadow: 0 0 15px rgba(0, 195, 255, 0.3);
+    }
+    
+    .lab-results {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    
+    .result-card {
+      background: rgba(30, 30, 40, 0.8);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid #00c3ff30;
+    }
+    
+    .result-title {
+      font-size: 1.3rem;
+      color: #00c3ff;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .progress-container {
+      margin: 20px 0;
+    }
+    
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: #bfbfbf;
+    }
+    
+    .progress-bar {
+      height: 12px;
+      background-color: #333;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #00c3ff, #0077ff);
+      border-radius: 6px;
+      transition: width 1.5s ease-in-out;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .stat-card {
+      background: rgba(0, 195, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid #00c3ff30;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 195, 255, 0.3);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #00c3ff;
+      margin: 10px 0;
+    }
+    
+    .stat-label {
+      color: #bfbfbf;
+      font-size: 0.9rem;
+    }
+    
+    .feedback-card {
+      background: rgba(30, 30, 40, 0.8);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      border-left: 4px solid #00c3ff;
+    }
+    
+    .feedback-title {
+      font-size: 1.3rem;
+      color: #00c3ff;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feedback-content {
+      color: #bfbfbf;
+      line-height: 1.8;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+    
+    .action-btn {
+      padding: 14px 35px;
+      background: linear-gradient(135deg, #00c3ff, #0077ff);
+      color: #0f0f0f;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .action-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 195, 255, 0.4);
+    }
+    
+    .action-btn.secondary {
+      background: transparent;
+      color: #00c3ff;
+      border: 2px solid #00c3ff;
+    }
+    
+    .action-btn.secondary:hover {
+      background: rgba(0, 195, 255, 0.1);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 40px 0 20px;
+      color: #666666;
+      font-size: 0.9em;
+      margin-top: 60px;
+      border-top: 1px solid #333;
+    }
+    
+    @media (max-width: 768px) {
+      .lab-container {
+        flex-direction: column;
+      }
+      
+      .headline {
+        font-size: 1.8em;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .action-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <h1>EduFusion</h1>
+        <p style="color: #bfbfbf; max-width: 600px; margin: 10px auto;">Resultados do Laboratório Virtual</p>
+      </div>
+      <div class="user-info">
+        <div class="user-avatar">DA</div>
+        <div>Dilan Antas | Estudante</div>
+      </div>
+    </header>
+    
+    <h1 class="headline">Resultados do Laboratório Virtual</h1>
+    <p class="subheadline">Visualize seu desempenho e progresso na simulação de Autovalores e Autovetores</p>
+    
+    <div class="lab-container">
+      <div class="lab-visualization">
+        <h3 class="lab-title">Simulação de Autovalores</h3>
+        <p style="color: #bfbfbf; text-align: center; margin-bottom: 25px;">Matriz A = [2, 1; 1, 2]</p>
+        
+        <div class="matrix-container">
+          <div class="matrix-cell">2</div>
+          <div class="matrix-cell">1</div>
+          <div class="matrix-cell">λ₁ = 3</div>
+          <div class="matrix-cell">1</div>
+          <div class="matrix-cell">2</div>
+          <div class="matrix-cell">λ₂ = 1</div>
+          <div class="matrix-cell">v₁ = [1,1]</div>
+          <div class="matrix-cell">v₂ = [-1,1]</div>
+          <div class="matrix-cell">✓</div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 25px;">
+          <div style="display: inline-block; padding: 8px 20px; background: rgba(0, 195, 255, 0.2); border-radius: 20px; color: #00c3ff; font-weight: bold;">
+            Transformação Linear Completa
+          </div>
+        </div>
+      </div>
+      
+      <div class="lab-results">
+        <div class="result-card">
+          <h3 class="result-title">Compreensão de Conceitos</h3>
+          <div class="progress-info">
+            <span>Domínio do Tópico</span>
+            <span>75%</span>
+          </div>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress" style="width: 75%;"></div>
+            </div>
+          </div>
+          <div class="progress-info">
+            <span>Antes do Laboratório</span>
+            <span>40%</span>
+          </div>
+        </div>
+        
+        <div class="result-card">
+          <h3 class="result-title">Desempenho no Laboratório</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value">92%</div>
+              <div class="stat-label">Taxa de Acerto</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">18 min</div>
+              <div class="stat-label">Tempo de Resolução</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">+40%</div>
+              <div class="stat-label">Engajamento</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">3.8/5</div>
+              <div class="stat-label">Dificuldade Percebida</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="feedback-card">
+      <h3 class="feedback-title">Feedback do Sistema Educacional</h3>
+      <div class="feedback-content">
+        <p>"Excelente progresso! Você demonstrou uma compreensão sólida dos conceitos de autovalores e autovetores durante a simulação."</p>
+        <p style="margin-top: 15px;">"Sua capacidade de visualizar transformações lineares no espaço 3D foi impressionante. Continue praticando com os exercícios recomendados para consolidar seu conhecimento."</p>
+        <p style="margin-top: 15px;"><strong>Recomendação:</strong> Avance para o tópico de Diagonalização de Matrizes quando estiver pronto.</p>
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+      <button class="action-btn" onclick="location.href='dashboard.html'">
+        Voltar ao Dashboard
+      </button>
+      <button class="action-btn secondary" onclick="location.href='solution.html'">
+        Próximo Laboratório
+      </button>
+      <button class="action-btn secondary" onclick="location.href='#'">
+        Baixar Relatório
+      </button>
+    </div>
+    
+    <footer>
+      <p>EduFusion - Transformando a Educação com Tecnologia</p>
+      <p>&copy; 2025 Todos os direitos reservados</p>
+    </footer>
+  </div>
+</body>
+</html>
